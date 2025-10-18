@@ -1,0 +1,301 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      -->
+<title>Extracting Point Cloud from STL Geometry: Tire</title>
+<meta name="generator" content="MATLAB 24.2">
+<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/">
+<meta name="DC.date" content="2025-07-20">
+<meta name="DC.source" content="tire_point_cloud_workflow.m">
+<style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style>
+</head>
+<body>
+<div class="content">
+<h1>Extracting Point Cloud from STL Geometry: Tire</h1>
+<!--introduction-->
+<p>This example shows MATLAB commands to obtain coordinates for the point cloud that is used to detect collision between the wheels and the ground terrain. The STL file for the tire is read into MATLAB, and then a few commands are used to extract just the points that are useful for the contact and friction force calculation.</p>
+<p>The code used in the example is <a href="matlab:edit('sm_tractor_row_crop_ptcld_tiretread.m')">sm_tractor_row_crop_ptcld_tiretread.m</a>.</p>
+<p>(<a href="matlab:web('Tractor_Row_Crop_Overview.html')">return to Row Crop Tractor Overview</a>)</p>
+<p>Copyright 2025 The MathWorks, Inc</p>
+<!--/introduction-->
+<h2>Contents</h2>
+<div>
+<ul>
+<li>
+<a href="#1">Read in the STL file, plot mesh</a>
+</li>
+<li>
+<a href="#2">Find offset</a>
+</li>
+<li>
+<a href="#3">Filter Points Based on Location</a>
+</li>
+<li>
+<a href="#4">Filter Points Using Convex Hull</a>
+</li>
+</ul>
+</div>
+<h2 id="1">Read in the STL file, plot mesh</h2>
+<p>The <a href="matlab:doc('stlread')">stlread</a> and <a href="matlab:doc('trimesh')">trimesh</a> commands are very useful for working with STL files.</p>
+<pre class="codeinput">stlFile = <span class="string">'Wheel_FL_Tire.stl'</span>;
+wheel_stl_points = stlread(stlFile);
+
+figure(1)
+trimesh(wheel_stl_points,<span class="string">'EdgeColor'</span>,[0.6 0.6 0.6])
+axis <span class="string">equal</span>
+box <span class="string">on</span>
+title(<span class="string">'STL Mesh'</span>)
+xlabel(<span class="string">'x'</span>)
+ylabel(<span class="string">'y'</span>)
+zlabel(<span class="string">'z'</span>)
+</pre>
+<img vspace="5" hspace="5" src="tire_point_cloud_workflow_01.png" alt=""> <h2 id="2">Find offset</h2>
+<pre class="codeinput">xOffset = (max(wheel_stl_points.Points(:,1))+min(wheel_stl_points.Points(:,1)))/2;
+yOffset = (max(wheel_stl_points.Points(:,2))+min(wheel_stl_points.Points(:,2)))/2;
+zOffset = (max(wheel_stl_points.Points(:,3))+min(wheel_stl_points.Points(:,3)))/2;
+
+<span class="comment">% Create new triangulation based on centered points</span>
+<span class="comment">% Must use original points, not unique points</span>
+wheel_stl_points_new  = wheel_stl_points.Points-[xOffset yOffset zOffset];
+wheel_stl_new         = triangulation(wheel_stl_points.ConnectivityList,wheel_stl_points_new(:,1),wheel_stl_points_new(:,2),wheel_stl_points_new(:,3));
+</pre>
+<h2 id="3">Filter Points Based on Location</h2>
+<p>As the data is all in x-y-z coordinates, we could look for points on the edge of the wheel on the tips of the fins. With STL files, you sometimes need to eliminate duplicate points using the MATLAB command <a href="matlab:doc('unique')">unique</a>. The code below finds points on the wheel edge that are outside a specified radius.</p>
+<pre class="codeinput">wheel_stl_points_unique = unique(wheel_stl_points.Points,<span class="string">'Rows'</span>);
+wheel_stl_points_unique = wheel_stl_points_unique-[xOffset yOffset zOffset];
+
+<span class="comment">% Calculate radius of all points</span>
+radialDims = [1 3];
+point_radius = sqrt(wheel_stl_points_unique(:,radialDims(1)).^2 + wheel_stl_points_unique(:,radialDims(2)).^2);
+
+<span class="comment">% Eliminate points within the exclusion radius</span>
+exclRad = 0.52*100;
+edge_points = wheel_stl_points_unique(point_radius&gt;=exclRad,:,:);
+
+figure(2)
+trimesh(wheel_stl_new,<span class="string">'EdgeColor'</span>,[0.6 0.6 0.6])
+hold <span class="string">on</span>
+plot3(edge_points(:,1),edge_points(:,2),edge_points(:,3),<span class="string">'bo'</span>)
+axis <span class="string">equal</span>
+box <span class="string">on</span>
+hold <span class="string">off</span>
+title(<span class="string">'Points Outside Minimum Radius (Iso View)'</span>)
+
+figure(3)
+trimesh(wheel_stl_new,<span class="string">'EdgeColor'</span>,[0.6 0.6 0.6])
+hold <span class="string">on</span>
+plot3(edge_points(:,1),edge_points(:,2),edge_points(:,3),<span class="string">'bo'</span>)
+axis <span class="string">equal</span>
+box <span class="string">on</span>
+hold <span class="string">off</span>
+title(<span class="string">'Points Outside Minimum Radius (Right View)'</span>)
+view(90,0)
+</pre>
+<img vspace="5" hspace="5" src="tire_point_cloud_workflow_02.png" alt=""> <img vspace="5" hspace="5" src="tire_point_cloud_workflow_03.png" alt=""> <h2 id="4">Filter Points Using Convex Hull</h2>
+<p>A method which is useful is extracting the points that form a convex hull. This is the smallest set of points that completely contains the shape, which for our wheel is useful. The resulting set would work for modeling contact between the wheel and the ground, but has many more points than we need for relatively smooth terrain.</p>
+<p>Obtaining this set of points uses <a href="matlab:doc('delaunayTriangulation')">delaunayTriangulation</a> and <a href="matlab:doc('convexHull')">convexHull</a>.</p>
+<pre class="codeinput">wheel_stl_points_tri = delaunayTriangulation(wheel_stl_points_new);
+cvh_inds  = convexHull(wheel_stl_points_tri);
+
+figure(4)
+trimesh(wheel_stl_new,<span class="string">'EdgeColor'</span>,[0.6 0.6 0.6])
+hold <span class="string">on</span>
+plot3(wheel_stl_points_tri.Points(cvh_inds,1),<span class="keyword">...</span>
+    wheel_stl_points_tri.Points(cvh_inds,2),<span class="keyword">...</span>
+    wheel_stl_points_tri.Points(cvh_inds,3),<span class="string">'b.'</span>)
+axis <span class="string">equal</span>
+box <span class="string">on</span>
+hold <span class="string">off</span>
+title(<span class="string">'Points Using Convex Hull'</span>)
+view(-45,30)
+</pre>
+<img vspace="5" hspace="5" src="tire_point_cloud_workflow_04.png" alt=""> <pre class="codeinput">close <span class="string">all</span>
+</pre>
+<p class="footer">
+<br>
+<a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2024b</a>
+<br>
+</p>
+</div>
+<!--
+##### SOURCE BEGIN #####
+%% Extracting Point Cloud from STL Geometry: Tire
+% 
+% This example shows MATLAB commands to obtain coordinates for the point
+% cloud that is used to detect collision between the wheels and the ground
+% terrain. The STL file for the tire is read into MATLAB, and then a
+% few commands are used to extract just the points that are useful for the
+% contact and friction force calculation.
+%
+% The code used in the example is <matlab:edit('sm_tractor_row_crop_ptcld_tiretread.m') sm_tractor_row_crop_ptcld_tiretread.m>. 
+% 
+% (<matlab:web('Tractor_Row_Crop_Overview.html') return to Row Crop Tractor Overview>)
+%
+% Copyright 2025 The MathWorks, Inc
+
+
+%% Read in the STL file, plot mesh
+%
+% The <matlab:doc('stlread') stlread> and <matlab:doc('trimesh') trimesh> commands are very useful for working with STL
+% files.
+
+stlFile = 'Wheel_FL_Tire.stl';
+wheel_stl_points = stlread(stlFile);
+
+figure(1)
+trimesh(wheel_stl_points,'EdgeColor',[0.6 0.6 0.6])
+axis equal
+box on
+title('STL Mesh')
+xlabel('x')
+ylabel('y')
+zlabel('z')
+
+
+%% Find offset
+xOffset = (max(wheel_stl_points.Points(:,1))+min(wheel_stl_points.Points(:,1)))/2;
+yOffset = (max(wheel_stl_points.Points(:,2))+min(wheel_stl_points.Points(:,2)))/2;
+zOffset = (max(wheel_stl_points.Points(:,3))+min(wheel_stl_points.Points(:,3)))/2;
+
+% Create new triangulation based on centered points
+% Must use original points, not unique points
+wheel_stl_points_new  = wheel_stl_points.Points-[xOffset yOffset zOffset];
+wheel_stl_new         = triangulation(wheel_stl_points.ConnectivityList,wheel_stl_points_new(:,1),wheel_stl_points_new(:,2),wheel_stl_points_new(:,3));
+
+%% Filter Points Based on Location
+%
+% As the data is all in x-y-z coordinates, we could look for points on the
+% edge of the wheel on the tips of the fins.  With STL files, you sometimes
+% need to eliminate duplicate points using the MATLAB command
+% <matlab:doc('unique') unique>.  The code below finds points on the wheel 
+% edge that are outside a specified radius.
+
+wheel_stl_points_unique = unique(wheel_stl_points.Points,'Rows');
+wheel_stl_points_unique = wheel_stl_points_unique-[xOffset yOffset zOffset];
+
+% Calculate radius of all points
+radialDims = [1 3];
+point_radius = sqrt(wheel_stl_points_unique(:,radialDims(1)).^2 + wheel_stl_points_unique(:,radialDims(2)).^2);
+
+% Eliminate points within the exclusion radius
+exclRad = 0.52*100;
+edge_points = wheel_stl_points_unique(point_radius>=exclRad,:,:);
+
+figure(2)
+trimesh(wheel_stl_new,'EdgeColor',[0.6 0.6 0.6])
+hold on
+plot3(edge_points(:,1),edge_points(:,2),edge_points(:,3),'bo')
+axis equal
+box on
+hold off
+title('Points Outside Minimum Radius (Iso View)')
+
+figure(3)
+trimesh(wheel_stl_new,'EdgeColor',[0.6 0.6 0.6])
+hold on
+plot3(edge_points(:,1),edge_points(:,2),edge_points(:,3),'bo')
+axis equal
+box on
+hold off
+title('Points Outside Minimum Radius (Right View)')
+view(90,0)
+
+%% Filter Points Using Convex Hull
+%
+% A method which is useful is extracting the points that form a
+% convex hull. This is the smallest set of points that completely contains
+% the shape, which for our wheel is useful. The resulting set would work
+% for modeling contact between the wheel and the ground, but has many more
+% points than we need for relatively smooth terrain.  
+%
+% Obtaining this set of points uses <matlab:doc('delaunayTriangulation')
+% delaunayTriangulation> and <matlab:doc('convexHull') convexHull>.
+
+wheel_stl_points_tri = delaunayTriangulation(wheel_stl_points_new);
+cvh_inds  = convexHull(wheel_stl_points_tri);
+
+figure(4)
+trimesh(wheel_stl_new,'EdgeColor',[0.6 0.6 0.6])
+hold on
+plot3(wheel_stl_points_tri.Points(cvh_inds,1),...
+    wheel_stl_points_tri.Points(cvh_inds,2),...
+    wheel_stl_points_tri.Points(cvh_inds,3),'b.')
+axis equal
+box on
+hold off
+title('Points Using Convex Hull')
+view(-45,30)
+
+
+%%
+close all
+
+##### SOURCE END #####
+-->
+</body>
+</html>

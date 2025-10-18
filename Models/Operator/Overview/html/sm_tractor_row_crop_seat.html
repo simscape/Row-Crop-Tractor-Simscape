@@ -1,0 +1,176 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      -->
+<title>Tractor Seat Suspension</title>
+<meta name="generator" content="MATLAB 24.2">
+<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/">
+<meta name="DC.date" content="2025-07-20">
+<meta name="DC.source" content="sm_tractor_row_crop_seat.m">
+<style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style>
+</head>
+<body>
+<div class="content">
+<h1>Tractor Seat Suspension</h1>
+<!--introduction-->
+<p>
+<img vspace="5" hspace="5" src="sm_tractor_row_crop_seat_Overview.png" alt=""> </p>
+<p>This example shows a model of a seat suspension in a tractor. We can use this model to assess the comfort of the operator.</p>
+<p>A vertical spring-damper connecting the seat to the cabin can be enabled or disabled. A passive model of a human with joints is connected to the seat and the steering wheel. The cabin is moved up and down using white noise and we measure the acceleration of the operators head.</p>
+<p>(<a href="matlab:web('Tractor_Row_Crop_Overview.html')">return to Row Crop Tractor Overview</a>)</p>
+<!--/introduction-->
+<h2>Contents</h2>
+<div>
+<ul>
+<li>
+<a href="#1">Model</a>
+</li>
+<li>
+<a href="#2">Operator Model</a>
+</li>
+<li>
+<a href="#3">Seat Model</a>
+</li>
+<li>
+<a href="#4">Simulation Results from Simscape Logging</a>
+</li>
+</ul>
+</div>
+<h2 id="1">Model</h2>
+<img vspace="5" hspace="5" src="sm_tractor_row_crop_seat_01.png" alt=""> <h2 id="2">Operator Model</h2>
+<p>The operator is modeled with rigid bodies and joints. Some joints have spring-dampers in them to hold the normal seated position.</p>
+<img vspace="5" hspace="5" src="sm_tractor_row_crop_seat_02.png" alt=""> <h2 id="3">Seat Model</h2>
+<p>This subsystem models the seat suspension as a vertically oriented spring damper.</p>
+<img vspace="5" hspace="5" src="sm_tractor_row_crop_seat_03.png" alt=""> <h2 id="4">Simulation Results from Simscape Logging</h2>
+<p>The plot below shows the vertical acceleration of the operators head and the vertical acceleraton of the cabin. The seat suspension attenuates some of the motion of the cabin, making it more comfortable for the operator.</p>
+<img vspace="5" hspace="5" src="sm_tractor_row_crop_seat_04.png" alt=""> <p class="footer">Copyright 2025 The MathWorks, Inc.<br>
+<a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2024b</a>
+<br>
+</p>
+</div>
+<!--
+##### SOURCE BEGIN #####
+%% Tractor Seat Suspension
+% 
+% <<sm_tractor_row_crop_seat_Overview.png>>
+% 
+% This example shows a model of a seat suspension in a tractor.  We can use
+% this model to assess the comfort of the operator.
+% 
+% A vertical spring-damper connecting the seat to the cabin can be enabled
+% or disabled.  A passive model of a human with joints is connected to the
+% seat and the steering wheel.  The cabin is moved up and down using white
+% noise and we measure the acceleration of the operators head.
+%
+% (<matlab:web('Tractor_Row_Crop_Overview.html') return to Row Crop Tractor Overview>)
+%
+% Copyright 2025 The MathWorks, Inc.
+
+%% Model
+
+open_system('sm_tractor_row_crop_seat')
+
+set_param(find_system('sm_tractor_row_crop_seat','MatchFilter',@Simulink.match.allVariants,'FindAll', 'on','type','annotation','Tag','ModelFeatures'),'Interpreter','off')
+
+%% Operator Model
+%
+% The operator is modeled with rigid bodies and joints.  Some joints have
+% spring-dampers in them to hold the normal seated position.
+
+set_param('sm_tractor_row_crop_seat/Operator/Driver Human Seated','LinkStatus','none')
+open_system('sm_tractor_row_crop_seat/Operator/Driver Human Seated','force')
+
+%% Seat Model
+%
+% This subsystem models the seat suspension as a vertically oriented spring
+% damper.
+
+set_param('sm_tractor_row_crop_seat/Suspension/Heave Linear','LinkStatus','none')
+open_system('sm_tractor_row_crop_seat/Suspension/Heave Linear','force')
+
+
+%% Simulation Results from Simscape Logging
+%
+% The plot below shows the vertical acceleration of the operators head and the
+% vertical acceleraton of the cabin.  The seat suspension attenuates some
+% of the motion of the cabin, making it more comfortable for the operator.
+
+sim('sm_tractor_row_crop_seat')
+
+open_system('sm_tractor_row_crop_seat/Scope')
+
+%%
+
+%clear all
+close all
+bdclose all
+
+##### SOURCE END #####
+-->
+</body>
+</html>

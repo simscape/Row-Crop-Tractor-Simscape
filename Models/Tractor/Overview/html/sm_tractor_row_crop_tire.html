@@ -1,0 +1,317 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      -->
+<title>Tractor Contact with Ground</title>
+<meta name="generator" content="MATLAB 24.2">
+<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/">
+<meta name="DC.date" content="2025-07-20">
+<meta name="DC.source" content="sm_tractor_row_crop_tire.m">
+<style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style>
+</head>
+<body>
+<div class="content">
+<h1>Tractor Contact with Ground</h1>
+<!--introduction-->
+<p>
+<img vspace="5" hspace="5" src="sm_tractor_row_crop_tire_Overview.png" alt=""> </p>
+<p>This example explores methods for modeling the contact between the tires and the ground for a row crop tractor.</p>
+<p>For contact with uneven surfaces, point clouds and Magic Formula tire can be used. Point clouds enable multi-point contact and capturing the rugged profile of an offroad tire. The Magic Formula Tire model can detect contact between the tire center plane and any surface it touches. A weighted normal is calculated as the tire transitions between different segments of the surface. This is much less computation than a point cloud.</p>
+<p>(<a href="matlab:web('Tractor_Row_Crop_Overview.html')">return to Row Crop Tractor Overview</a>)</p>
+<!--/introduction-->
+<h2>Contents</h2>
+<div>
+<ul>
+<li>
+<a href="#1">Model</a>
+</li>
+<li>
+<a href="#2">Tractor Model</a>
+</li>
+<li>
+<a href="#3">Tire Model: Magic Formula</a>
+</li>
+<li>
+<a href="#4">Tire Model: Point Cloud</a>
+</li>
+<li>
+<a href="#5">Simulation Results from Simscape Logging, Step Steer: Magic Formula</a>
+</li>
+<li>
+<a href="#6">Simulation Results from Simscape Logging, Step Steer: Point Cloud, Cylinder</a>
+</li>
+<li>
+<a href="#7">Simulation Results from Simscape Logging, Step Steer: Point Cloud, Tread</a>
+</li>
+<li>
+<a href="#8">Simulation Results from Simscape Logging, Step Steer: Comparison</a>
+</li>
+</ul>
+</div>
+<h2 id="1">Model</h2>
+<img vspace="5" hspace="5" src="sm_tractor_row_crop_tire_01.png" alt=""> <h2 id="2">Tractor Model</h2>
+<p>The chassis, front and rear suspensions, and tires are modeled in this subsystem. The driveshafts connecting to each wheel are combined into a Simscape Bus which connects to a separate powertrain model. This allows us to combine this chassis model with any form of powertrain (two wheel drive, four wheel drive, and more).</p>
+<p>The Scene is also contained in this subsystem. Flat and uneven terrain can be selected using variant subsystems. The scene connects to the wheel center for lookup table-defined terrain, and the tire connects to the surface.</p>
+<img vspace="5" hspace="5" src="sm_tractor_row_crop_tire_02.png" alt=""> <h2 id="3">Tire Model: Magic Formula</h2>
+<p>This subsystem models the tire. The tire is connected to the terrain which can be flat or uneven.</p>
+<img vspace="5" hspace="5" src="sm_tractor_row_crop_tire_03.png" alt=""> <h2 id="4">Tire Model: Point Cloud</h2>
+<p>This subsystem models the tire. The tire is connected to the terrain which can be flat or uneven. A point cloud models the geometry of the tire.</p>
+<img vspace="5" hspace="5" src="sm_tractor_row_crop_tire_04.png" alt=""> <h2 id="5">Simulation Results from Simscape Logging, Step Steer: Magic Formula</h2>
+<p>The plot below shows the wheel speeds during the maneuver. The rotational wheel speeds are scaled by the unloaded radius so they can be compared with the translational speed of the tractor. Additional plots below show tractor position, body roll angle, body pitch angle, and tire normal forces.</p>
+<p>
+<img vspace="5" hspace="5" src="sm_tractor_row_crop_mechExp_StepSteer_MF.png" alt=""> </p>
+<img vspace="5" hspace="5" src="sm_tractor_row_crop_tire_05.png" alt=""> <img vspace="5" hspace="5" src="sm_tractor_row_crop_tire_06.png" alt=""> <img vspace="5" hspace="5" src="sm_tractor_row_crop_tire_07.png" alt=""> <h2 id="6">Simulation Results from Simscape Logging, Step Steer: Point Cloud, Cylinder</h2>
+<p>The plot below shows the wheel speeds during the maneuver. The rotational wheel speeds are scaled by the unloaded radius so they can be compared with the translational speed of the tractor. Additional plots below show tractor position, body roll angle, body pitch angle, and tire normal forces.</p>
+<p>
+<img vspace="5" hspace="5" src="sm_tractor_row_crop_mechExp_StepSteer_PCcyl.png" alt=""> </p>
+<img vspace="5" hspace="5" src="sm_tractor_row_crop_tire_08.png" alt=""> <img vspace="5" hspace="5" src="sm_tractor_row_crop_tire_09.png" alt=""> <img vspace="5" hspace="5" src="sm_tractor_row_crop_tire_10.png" alt=""> <h2 id="7">Simulation Results from Simscape Logging, Step Steer: Point Cloud, Tread</h2>
+<p>The plot below shows the wheel speeds during the maneuver. The rotational wheel speeds are scaled by the unloaded radius so they can be compared with the translational speed of the tractor. Additional plots below show tractor position, body roll angle, body pitch angle, and tire normal forces.</p>
+<p>
+<img vspace="5" hspace="5" src="sm_tractor_row_crop_mechExp_StepSteer_PCtrd.png" alt=""> </p>
+<img vspace="5" hspace="5" src="sm_tractor_row_crop_tire_11.png" alt=""> <img vspace="5" hspace="5" src="sm_tractor_row_crop_tire_12.png" alt=""> <img vspace="5" hspace="5" src="sm_tractor_row_crop_tire_13.png" alt=""> <h2 id="8">Simulation Results from Simscape Logging, Step Steer: Comparison</h2>
+<p>Comparing the results of the three simulations, we see that the tractor follows nearly the same path. The radius of the circle is quite similar, with only a slight difference in where the center of the circle is. The tractor starts turning slightly earlier with the Magic Formula Tire.</p>
+<img vspace="5" hspace="5" src="sm_tractor_row_crop_tire_14.png" alt=""> <img vspace="5" hspace="5" src="sm_tractor_row_crop_tire_15.png" alt=""> <p class="footer">Copyright 2025 The MathWorks, Inc.<br>
+<a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2024b</a>
+<br>
+</p>
+</div>
+<!--
+##### SOURCE BEGIN #####
+%% Tractor Contact with Ground
+% 
+% <<sm_tractor_row_crop_tire_Overview.png>>
+% 
+% This example explores methods for modeling the contact between the 
+% tires and the ground for a row crop tractor.
+% 
+% For contact with uneven surfaces, point clouds and Magic Formula tire can
+% be used. Point clouds enable multi-point contact and capturing the rugged
+% profile of an offroad tire.  The Magic Formula Tire model can detect
+% contact between the tire center plane and any surface it touches.  A
+% weighted normal is calculated as the tire transitions between different
+% segments of the surface.  This is much less computation than a point
+% cloud.
+%
+% (<matlab:web('Tractor_Row_Crop_Overview.html') return to Row Crop Tractor Overview>)
+%
+% Copyright 2025 The MathWorks, Inc.
+
+%% Model
+
+open_system('sm_tractor_row_crop')
+
+set_param(find_system('sm_tractor_row_crop','MatchFilter',@Simulink.match.allVariants,'FindAll', 'on','type','annotation','Tag','ModelFeatures'),'Interpreter','off')
+
+%% Tractor Model
+%
+% The chassis, front and rear suspensions, and tires are modeled in this
+% subsystem.  The driveshafts connecting to each wheel are combined into a
+% Simscape Bus which connects to a separate powertrain model.  This allows
+% us to combine this chassis model with any form of powertrain (two wheel
+% drive, four wheel drive, and more).  
+% 
+% The Scene is also contained in this subsystem.  Flat and uneven terrain
+% can be selected using variant subsystems.  The scene connects to the
+% wheel center for lookup table-defined terrain, and the tire connects to
+% the surface.
+
+set_param('sm_tractor_row_crop/Tractor','LinkStatus','none')
+open_system('sm_tractor_row_crop/Tractor','force')
+
+%% Tire Model: Magic Formula
+%
+% This subsystem models the tire. The tire is connected to the terrain
+% which can be flat or uneven.
+
+set_param('sm_tractor_row_crop/Tractor/Wheel FL/Magic Formula','LinkStatus','none')
+open_system('sm_tractor_row_crop/Tractor/Wheel FL/Magic Formula','force')
+
+%% Tire Model: Point Cloud
+%
+% This subsystem models the tire. The tire is connected to the terrain
+% which can be flat or uneven.  A point cloud models the geometry of the
+% tire.
+
+set_param('sm_tractor_row_crop/Tractor','popup_tire_type','Point Cloud')
+set_param('sm_tractor_row_crop/Tractor/Wheel FL/Point Cloud','LinkStatus','none')
+open_system('sm_tractor_row_crop/Tractor/Wheel FL/Point Cloud','force')
+
+
+%% Simulation Results from Simscape Logging, Step Steer: Magic Formula
+%
+% The plot below shows the wheel speeds during the maneuver.  The
+% rotational wheel speeds are scaled by the unloaded radius so they can be
+% compared with the translational speed of the tractor. Additional plots
+% below show tractor position, body roll angle, body pitch angle, and tire
+% normal forces.
+% 
+% <<sm_tractor_row_crop_mechExp_StepSteer_MF.png>>
+
+VehicleData = sm_tractor_row_crop_config_tire(bdroot,VehicleData,'Magic Formula');
+set_param('sm_tractor_row_crop/Powertrain','popup_powertrain_config','Torque at Wheels');
+sm_tractor_row_crop_config_maneuver('sm_tractor_row_crop',VehicleData,'stepsteer')
+sim('sm_tractor_row_crop')
+
+[~, resWspdMF] = sm_tractor_row_crop_plot1whlspd(...
+    simlog_sm_tractor_row_crop,...
+    logsout_sm_tractor_row_crop,...
+    VehicleData.TireDataF.param.DIMENSION.UNLOADED_RADIUS,...
+    VehicleData.TireDataR.param.DIMENSION.UNLOADED_RADIUS);
+
+[~, resPvehMF] = sm_tractor_row_crop_plot2bodypos(simlog_sm_tractor_row_crop);
+sm_tractor_row_crop_plot3bodytiremeas(logsout_sm_tractor_row_crop);
+
+%% Simulation Results from Simscape Logging, Step Steer: Point Cloud, Cylinder
+%
+% The plot below shows the wheel speeds during the maneuver.  The
+% rotational wheel speeds are scaled by the unloaded radius so they can be
+% compared with the translational speed of the tractor. Additional plots
+% below show tractor position, body roll angle, body pitch angle, and tire
+% normal forces.
+%
+% <<sm_tractor_row_crop_mechExp_StepSteer_PCcyl.png>>
+
+VehicleData = sm_tractor_row_crop_config_tire(bdroot,VehicleData,'Point Cloud Cylinder');
+set_param('sm_tractor_row_crop/Powertrain','popup_powertrain_config','Torque at Wheels');
+sm_tractor_row_crop_config_maneuver('sm_tractor_row_crop',VehicleData,'stepsteer')
+sim('sm_tractor_row_crop')
+
+[~, resWspdPC] = sm_tractor_row_crop_plot1whlspd(...
+    simlog_sm_tractor_row_crop,...
+    logsout_sm_tractor_row_crop,...
+    VehicleData.TireDataF.param.DIMENSION.UNLOADED_RADIUS,...
+    VehicleData.TireDataR.param.DIMENSION.UNLOADED_RADIUS);
+
+[~, resPvehPC] = sm_tractor_row_crop_plot2bodypos(simlog_sm_tractor_row_crop);
+sm_tractor_row_crop_plot3bodytiremeas(logsout_sm_tractor_row_crop);
+
+%% Simulation Results from Simscape Logging, Step Steer: Point Cloud, Tread
+%
+% The plot below shows the wheel speeds during the maneuver.  The
+% rotational wheel speeds are scaled by the unloaded radius so they can be
+% compared with the translational speed of the tractor. Additional plots
+% below show tractor position, body roll angle, body pitch angle, and tire
+% normal forces.
+%
+% <<sm_tractor_row_crop_mechExp_StepSteer_PCtrd.png>>
+
+VehicleData = sm_tractor_row_crop_config_tire(bdroot,VehicleData,'Point Cloud Tread');
+set_param('sm_tractor_row_crop/Powertrain','popup_powertrain_config','Torque at Wheels');
+sm_tractor_row_crop_config_maneuver('sm_tractor_row_crop',VehicleData,'stepsteer')
+sim('sm_tractor_row_crop')
+
+[~, resWspdPT] = sm_tractor_row_crop_plot1whlspd(...
+    simlog_sm_tractor_row_crop,...
+    logsout_sm_tractor_row_crop,...
+    VehicleData.TireDataF.param.DIMENSION.UNLOADED_RADIUS,...
+    VehicleData.TireDataR.param.DIMENSION.UNLOADED_RADIUS);
+
+[~, resPvehPT] = sm_tractor_row_crop_plot2bodypos(simlog_sm_tractor_row_crop);
+sm_tractor_row_crop_plot3bodytiremeas(logsout_sm_tractor_row_crop);
+
+%% Simulation Results from Simscape Logging, Step Steer: Comparison
+%
+% Comparing the results of the three simulations, we see that the tractor
+% follows nearly the same path. The radius of the circle is quite similar,
+% with only a slight difference in where the center of the circle is.  The
+% tractor starts turning slightly earlier with the Magic Formula Tire.
+figure
+plot(resWspdMF.t,resWspdMF.vFL,'LineWidth',2,'DisplayName','Magic Formula');
+hold on
+plot(resWspdPC.t,resWspdPC.vFL,'LineWidth',2,'DisplayName','Point Cloud Cylinder');
+plot(resWspdPT.t,resWspdPT.vFL,'LineWidth',2,'DisplayName','Point Cloud Tread');
+hold off
+title('Wheel Speeds')
+legend('Location','Best')
+grid on
+ylabel('Speed (m/s)')
+xlabel('Time (s)')
+
+figure
+plot(resPvehMF.px,resPvehMF.py,'LineWidth',2,'DisplayName','Magic Formula');
+hold on
+plot(resPvehPC.px,resPvehPC.py,'LineWidth',2,'DisplayName','Point Cloud Cylinder');
+plot(resPvehPT.px,resPvehPT.py,'REPLACE_WITH_DASH_DASH','LineWidth',2,'DisplayName','Point Cloud Tread');
+hold off
+title('Vehicle Position, World Coordinates')
+legend('Location','Best')
+axis equal
+grid on
+xlabel('X Position (m)')
+ylabel('Y Position (m)')
+
+%%
+
+%clear all
+close all
+bdclose all
+
+##### SOURCE END #####
+-->
+</body>
+</html>

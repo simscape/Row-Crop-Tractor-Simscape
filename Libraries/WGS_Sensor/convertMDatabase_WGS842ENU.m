@@ -1,0 +1,13 @@
+mnv_list = fieldnames(MDatabase);
+
+% Assumes first maneuver point is [0 0 0]
+for m_i = 1:length(mnv_list)
+    [xE, yN, zU] = convertManeuver_WGS842ENU(...
+        MDatabase.(mnv_list{m_i}).Trajectory,...
+        [MDatabase.(mnv_list{m_i}).Trajectory.lat.Value(1) ...
+        MDatabase.(mnv_list{m_i}).Trajectory.lon.Value(1) ... 
+        MDatabase.(mnv_list{m_i}).Trajectory.h.Value(1)]);
+    MDatabase.(mnv_list{m_i}).Trajectory.x.Value = xE;
+    MDatabase.(mnv_list{m_i}).Trajectory.y.Value = yN;
+    MDatabase.(mnv_list{m_i}).Trajectory.z.Value = zU;
+end
