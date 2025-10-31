@@ -10,7 +10,7 @@ function VehicleData = sm_tractor_row_crop_config_tire(mdl,VehicleData,tireType)
 %
 %   The updated VehicleData structure is returned
 %
-% Copyright 2021-2024 The MathWorks, Inc.
+% Copyright 2021-2025 The MathWorks, Inc.
 
 switch (lower(tireType))
     case 'magic formula'

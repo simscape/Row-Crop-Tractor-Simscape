@@ -1,7 +1,7 @@
 function ssc_hydromech_power_split_cvt_plot3torque(simlog_vehicle)
 % Code to plot simulation results 
 
-% Copyright 2023-2024 The MathWorks, Inc.
+% Copyright 2023-2025 The MathWorks, Inc.
 
 createPlot = false;
 %% Get simulation results

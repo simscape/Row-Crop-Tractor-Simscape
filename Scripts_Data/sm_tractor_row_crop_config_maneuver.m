@@ -7,7 +7,7 @@ function sm_tractor_row_crop_config_maneuver(mdl,VehicleData,tire_test)
 %   tire_test     'stepsteer','plateau','rough road','orchard',
 %                 'fourpasses','fourpassescurve','triangletwelvepasses'
 %
-% Copyright 2021-2024 The MathWorks, Inc.
+% Copyright 2021-2025 The MathWorks, Inc.
 
 DDatabase = evalin('base','DDatabase');
 

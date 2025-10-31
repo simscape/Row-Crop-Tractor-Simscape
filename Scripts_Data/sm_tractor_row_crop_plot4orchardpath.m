@@ -4,7 +4,7 @@ function [fig_h,res] = sm_tractor_row_crop_plot4orchardpath(orchSurf,varargin)
 %
 % The plot below shows the position of the tractor during the maneuver.
 
-% Copyright 2021-2024 The MathWorks, Inc.
+% Copyright 2021-2025 The MathWorks, Inc.
 
 % Reuse figure if it exists, else create new figure
 figString = ['h1_' mfilename];

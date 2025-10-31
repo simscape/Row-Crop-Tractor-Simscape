@@ -3,7 +3,7 @@ function Camera =  sm_vehicle_camera_frames_tractor
 %
 % Adjust frame locations below
 %
-% Copyright 2021-2024 The MathWorks, Inc.
+% Copyright 2021-2025 The MathWorks, Inc.
 
 % Offset from vehicle reference to camera reference
 %   Vehicle Reference: Frame where camera frame subsystem is attached

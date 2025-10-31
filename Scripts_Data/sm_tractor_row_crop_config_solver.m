@@ -5,7 +5,7 @@ function sm_tractor_row_crop_config_solver(mdl,solverType)
 %   mdl           Name of Simulink model
 %   solverType    'variable' or 'fixed'
 %
-% Copyright 2021-2024 The MathWorks, Inc.
+% Copyright 2021-2025 The MathWorks, Inc.
 
 switch (lower(solverType))
     case 'variable'

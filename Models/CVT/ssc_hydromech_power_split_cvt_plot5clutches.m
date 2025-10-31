@@ -1,7 +1,7 @@
 function ssc_hydromech_power_split_cvt_plot5clutches(simlog_trans)
 % Code to plot simulation results 
 
-% Copyright 2020-2024 The MathWorks, Inc.
+% Copyright 2020-2025 The MathWorks, Inc.
 
 %% Plot results
 if(~isempty(find(strcmp(fieldnames(simlog_trans),'Power_Split_Hydromech'))))

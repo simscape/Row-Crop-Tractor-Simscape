@@ -5,7 +5,7 @@ function sm_tractor_row_crop_plot3bodytiremeas(logsoutRes)
 % The plots below shows the body roll and pitch angles, as well as the
 % normal forces on the tires.
 
-% Copyright 2021-2024 The MathWorks, Inc.
+% Copyright 2021-2025 The MathWorks, Inc.
 
 % Reuse figure if it exists, else create new figure
 figString = ['h1_' mfilename];
