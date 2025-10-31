@@ -11,8 +11,8 @@ disp(['Generating DDatabase from ' mfilename]);
 
 %% Default Driver - Sedan Hamba
 veh_name = 'Tractor_Row_Crop';
-drv.Lateral.NForward.Value          = 1;          % (no units) 
-drv.Lateral.NReverse.Value          = 2.5;        % (no units)
+drv.Lateral.Stanley.NForward.Value          = 1;          % (no units) 
+drv.Lateral.Stanley.NReverse.Value          = 2.5;        % (no units)
 drv.Lateral.xWheelbase.Value        = Vehicle.Body.FA - Vehicle.Body.RA;      % m
 drv.Lateral.aMaxSteer.Value         = 80;         % deg
 drv.Lateral.fSteerCutoff.Value      = 314.159265; % rad/s
@@ -24,9 +24,18 @@ drv.Long.xPreview.Value             = 20;         % s
 drv.Long.NDragRoll.Value            = 200;        % N       
 drv.Long.NDragRollDriveline.Value   = 2.5;        % N/(m/s)
 drv.Long.NDragAero.Value            = 0;          % N/(m^2/s^2)
-drv.Long.gGravity.Value             = 9.80665;       % m/s^2
+drv.Long.rho_air.Value              = 1.225;      % kg/m^3
+drv.Long.ARef.Value                 = 2.81;       % m^2
+drv.Long.gGravity.Value             = 9.80665;    % m/s^2
 drv.Long.fAccelCutoff.Value         = 31.4159265; % 1/s
 drv.Long.fBrakeCutoff.Value         = 31.4159265; % 1/s
+drv.Long.FFLookahead.Value          = 0.5;        % s
+drv.Long.NRollingResistance.Value   = 0.01;       % (1)
+drv.Long.NRoadFriction.Value        = 0.9;        % (1)
+drv.Long.Kp.Value                   = 0.3125;     % (1)
+drv.Long.Ki.Value                   = 0.0391;     % (1)
+drv.Long.gMaxAccel.Value            = 5;          % m/s^2
+drv.Long.gMaxDecel.Value            = -10;        % m/s^2
 
 drv.drvCycle.Long.Ki.Value          = 0;          % 1/s
 drv.drvCycle.Long.Kp.Value          = 1;          % 1/s
@@ -87,6 +96,10 @@ for Mi = 1:num_M
         Driver.(VehName).Lateral.xWheelbase.Comments = 'Vehicle.Chassis.Body.sAxle1.Value - Vehicle.Chassis.Body.sAxle(rear).Value';
         Driver.(VehName).Lateral.aMaxSteer.Units     = 'deg';
         Driver.(VehName).Lateral.fSteerCutoff.Units  = 'rad/s';
+        Driver.(VehName).Lateral.Pursuit.xLookaheadMin.Units = 'm';        % m
+        Driver.(VehName).Lateral.Pursuit.xLookaheadMax.Units = 'm';         % m
+        Driver.(VehName).Lateral.Pursuit.nWeightHeadingErr.Value = 0.5;      % (no units)
+        Driver.(VehName).Lateral.class.Value               = 'Stanley';  % Lat Driver Type 
 
         Driver.(VehName).Long.mVehicle.Units         = 'kg';
         Driver.(VehName).Long.mVehicle.Comments      = 'Vehicle.Chassis.Body.m.Value';
@@ -99,8 +112,15 @@ for Mi = 1:num_M
         Driver.(VehName).Long.gGravity.Units         = 'm/s^2';
         Driver.(VehName).Long.fAccelCutoff.Units     = '1/s';
         Driver.(VehName).Long.fBrakeCutoff.Units     = '1/s';
+        Driver.(VehName).Long.FFLookahead.Units        = 's';
         Driver.(VehName).Vis.clr = [1 0.4 0.4];
+        Driver.(VehName).Long.NRollingResistance.Units = '1';
+        Driver.(VehName).Long.NRoadFriction.Units      = '1';
         Driver.(VehName).Vis.opc = 0.2*0;
+        Driver.(VehName).Long.Kp.Units                 = '1';
+        Driver.(VehName).Long.Ki.Units                 = '1';
+        Driver.(VehName).Long.gMaxAccel.Units          = 'm/s^2';
+        Driver.(VehName).Long.gMaxDecel.Units          = 'm/s^2';
 
         % Add to DDatabase
         DDatabase.(ManvName).(VehName).Long     = Driver.(VehName).Long;

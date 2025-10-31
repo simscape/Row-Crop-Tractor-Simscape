@@ -20,6 +20,9 @@ MDatabase.(ManvTri12Passes.Type) = ManvTri12Passes;
 
 load GS_Uneven_Road_GSD
 load GS_Uneven_Road_Manv
+Maneuver.nPreviewPoints.Value = 5;
+Maneuver.nPreviewPoints.Units = '';
+Maneuver.nPreviewPoints.Comments = 'For Pure Pursuit Driver';
 
 fNames = fieldnames(Maneuver);
 for i = 1:length(fNames)

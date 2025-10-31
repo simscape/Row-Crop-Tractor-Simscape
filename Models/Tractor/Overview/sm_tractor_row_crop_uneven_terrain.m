@@ -92,7 +92,7 @@ sim('sm_tractor_row_crop')
 
 [~, resSusp] = sm_tractor_row_crop_plot5operator(logsout_sm_tractor_row_crop);
 
-%% Simulation Results from Simscape Logging, Step Steer: Comparison
+%% Simulation Results from Simscape Logging, Uneven Road: Comparison
 %
 % Comparing the results of the two tests, we can see the impact of the seat
 % suspension on the comfort of the operator.

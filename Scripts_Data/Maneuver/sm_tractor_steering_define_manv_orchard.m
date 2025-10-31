@@ -87,6 +87,11 @@ Maneuver.Trajectory = sm_car_trajectory_calc(road_data,traj_coeff,false);
 Maneuver.xMaxLat.Value    = 3;
 Maneuver.vMinTarget.Value = 5;
 Maneuver.vGain.Value      = 1;
+
+Maneuver.nPreviewPoints.Value = 5;
+Maneuver.nPreviewPoints.Units = '';
+Maneuver.nPreviewPoints.Comments = 'For Pure Pursuit Driver';
+
 end
 
 function [xNew, yNew] = generatePathPoints(x, y, numPoints)
